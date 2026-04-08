@@ -4,45 +4,41 @@
  */
 
 import { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
-import { AlertCircle, CheckCircle2, Clock, Ban, ShieldCheck, Zap, Music, FileText } from 'lucide-react';
+import { AlertCircle, CheckCircle2, Clock, Ban, ShieldCheck, Zap, Music, FileText, Lock } from 'lucide-react';
 
 export default function App() {
   const [timeLeft, setTimeLeft] = useState(865); // 14:25 in seconds
 
   useEffect(() => {
-    let retryCount = 0;
-    const maxRetries = 10;
-
-    const loadScript = () => {
-      if (document.querySelector('script[src*="hotmart-checkout-elements.js"]')) {
-        initHotmart();
-        return;
-      }
+    const scriptId = 'hotmart-script';
+    if (!document.getElementById(scriptId)) {
       const script = document.createElement('script');
+      script.id = scriptId;
       script.src = "https://checkout.hotmart.com/lib/hotmart-checkout-elements.js";
       script.async = true;
-      script.onload = initHotmart;
-      script.onerror = () => console.error('Failed to load Hotmart script');
+      script.onload = () => {
+        // @ts-ignore
+        if (window.checkoutElements) {
+          try {
+            // @ts-ignore
+            window.checkoutElements.init('salesFunnel').mount('#hotmart-sales-funnel');
+          } catch (e) {
+            console.error('Hotmart mount error:', e);
+          }
+        }
+      };
       document.body.appendChild(script);
-    };
-
-    const initHotmart = () => {
+    } else {
       // @ts-ignore
       if (window.checkoutElements) {
         try {
           // @ts-ignore
           window.checkoutElements.init('salesFunnel').mount('#hotmart-sales-funnel');
         } catch (e) {
-          console.error('Hotmart init error:', e);
+          console.error('Hotmart remount error:', e);
         }
-      } else if (retryCount < maxRetries) {
-        retryCount++;
-        setTimeout(initHotmart, 1000);
       }
-    };
-
-    loadScript();
+    }
   }, []);
 
   useEffect(() => {
@@ -69,11 +65,7 @@ export default function App() {
 
       <main className="max-w-4xl mx-auto px-6 py-12 md:py-20">
         {/* Header Section */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center space-y-6"
-        >
+        <div className="text-center space-y-6">
           <p className="text-orange-500 font-bold uppercase tracking-[0.2em] text-sm">
             Oportunidad de Última Hora
           </p>
@@ -83,7 +75,7 @@ export default function App() {
           <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto">
             Si los bonos y materiales extras no son lo que buscas ahora, tengo una propuesta irresistible para que no te quedes fuera.
           </p>
-        </motion.div>
+        </div>
 
         {/* Pricing Section */}
         <div className="mt-16 text-center space-y-8">
@@ -108,10 +100,8 @@ export default function App() {
               <span className="text-orange-500">83% Completado</span>
             </div>
             <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
-              <motion.div 
-                initial={{ width: 0 }}
-                animate={{ width: '83%' }}
-                transition={{ duration: 1.5, ease: "easeOut" }}
+              <div 
+                style={{ width: '83%' }}
                 className="h-full bg-gradient-to-r from-orange-600 to-orange-400"
               />
             </div>
