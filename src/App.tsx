@@ -77,6 +77,19 @@ export default function App() {
           </p>
         </div>
 
+        {/* Special Discount Section */}
+        <div className="mt-12 text-center space-y-8">
+          <img 
+            src="https://eliabcamposteclas.com/wp-content/uploads/2026/04/ChatGPT-Image-8-de-abr.-de-2026-11_34_22.jpg" 
+            alt="Oferta Especial" 
+            referrerPolicy="no-referrer"
+            className="max-w-full h-auto mx-auto rounded-3xl shadow-[0_0_50px_rgba(249,115,22,0.15)] border border-zinc-800"
+          />
+          <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tight text-white">
+            ¡APROVECHA AHORA ESTE <span className="text-orange-500">DESCUENTO!</span>
+          </h2>
+        </div>
+
         {/* Pricing Section */}
         <div className="mt-16 text-center space-y-8">
           <div className="space-y-2">
