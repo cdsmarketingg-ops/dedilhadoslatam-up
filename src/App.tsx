@@ -201,7 +201,7 @@ export default function App() {
 
         {/* Footer */}
         <footer className="mt-32 pt-8 border-t border-zinc-900 text-center text-zinc-600 text-[10px] uppercase tracking-widest">
-          © 2026 Eliah Campos Teclas. Todos los derechos reservados.
+          © 2026 Eliab Campos Teclas. Todos los derechos reservados.
         </footer>
       </main>
     </div>
